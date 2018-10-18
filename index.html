@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <title>Suifeng Liu Project 1g</title>
+
+    <script src="svg.min.js"></script>
+    <script src="city_parts.js"></script>
+</head>
+
+<body>
+    <div class="flex-container" style="display:flex">
+        <div id="controls">
+            <form name="citySpecs">
+
+                <fieldset>
+                    <legend>Number of buildings:</legend>
+                    <select name="numBuildings">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2 </option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Number of floors per building:</legend>
+                    <select name="numFloors">
+                        <option value="1">1</option>
+                        <option value="2" selected>2 </option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Number of windows per floor (except ground floor):</legend>
+                    <select name="numWindows">
+                        <option value="1">1</option>
+                        <option value="2" selected>2 </option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </fieldset>
+            </form>
+        </div>
+
+        <div id="drawing" style="flex-basis:800px"></div>
+
+    </div>
+</body>
+
+<script src="main.js"></script>
+
+</html>
