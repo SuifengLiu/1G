@@ -1,15 +1,15 @@
 "use strict"
 /*------------------------------------------Global Variables----------------------------------------*/
-let numberOfBuildings = 5; // Range 0-5
-let numberOfFloors = 1; // Range 1-5
-let numberOfWindows = 5; // Range 1-5
+let numberOfBuildings = 0; // Range 0-5
+let numberOfFloors = 2; // Range 1-5
+let numberOfWindows = 2; // Range 1-5
 
 /*---------------------------------------------Canvas-----------------------------------------------*/
 // Set up drawings
 let canvas = SVG("drawing");
 
 // Set up canvas sizes
-canvas.size(1500,900);
+canvas.size(1600,900);
 
 // draw rectangles around each canvas so you can see them for this demo
 canvas.rect(canvas.width(), canvas.height()).fill("white").stroke("black");
@@ -17,29 +17,41 @@ canvas.rect(canvas.width(), canvas.height()).fill("white").stroke("black");
 /*---------------------------------------------City------------------------------------------------*/
 
 drawCity(canvas,numberOfFloors,numberOfWindows,numberOfBuildings);
-ground(canvas);
 
 
 function drawCity(d,floorNum,winNum,buildingNum) {
-  let houseSepcs = [[300, 100, windowAArray, roofA, 820, doorA],
-                    [220, 80,  windowBArray, roofB, 820, doorB],
-                    [300, 100, windowCArray, roofC, 830, doorA],
-                    [200, 90,  windowDArray, roofD, 830, doorB],
-                    [210, 120, windowEArray, roofE, 840, doorB]];
+
+   ground(canvas);
+
    let idx = 0;
    let currentX = 5;
    while(idx < buildingNum) {
-       currentX = currentX + drawHouse(d, currentX, floorNum, winNum, houseSepcs[Math.floor(Math.random() * 5)]) + 5;
+       let gap = Math.floor(Math.random() * 20) + 5;
+       currentX = currentX + drawHouse(d, currentX, floorNum, winNum) + gap;
        idx++;
+   }
+
+
+   if (Math.random() < 0.75) {
+        drawCar(d);
    }
 }
 
-function drawHouse(d, x, floorNum, winNum, spec){
-  baseArray(d, x, floorNum, spec[0], spec[1]);
-  spec[2](d, x, floorNum, winNum, spec[0], spec[1]);
-  spec[3](d, x, spec[4] - (floorNum + 1) * spec[1], spec[0]);
-  spec[5](d, x, spec[0]);
-  return spec[0];
+function drawHouse(d, x, floorNum, winNum){
+  
+  let pickHouse = Math.floor(Math.random() * houseSpecs.length);
+  baseArray(d, x, floorNum, pickHouse);
+
+  let pickWindow = Math.floor(Math.random() * windowSpecs.length);;
+  windowArray(d, x, floorNum, winNum, pickHouse, pickWindow);
+
+  let pickRoof =  Math.floor(Math.random() * roofSpecs.length);
+  roofArray(d, x, floorNum, pickHouse, pickRoof);
+
+  let pickDoor = Math.floor(Math.random() * doorSpecs.length);
+  doorArray(d, x, pickHouse, pickDoor);
+
+  return houseSpecs[pickHouse][0];
 }
 
 /*
@@ -79,10 +91,5 @@ function formChanged(event) {
 
     canvas.clear();
     drawCity(canvas,numberOfFloors,numberOfWindows,numberOfBuildings);
-    ground(canvas);
 
-    if (Math.random() < 0.75) {
-    car(canvas, 0, 230).animate(2500).x(1500);
-    car(canvas, 0, 290).animate(2000).x(1500);
-    }
 }
